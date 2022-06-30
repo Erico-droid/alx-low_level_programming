@@ -4,11 +4,15 @@
 
 /**
 
- * main - prints the phrase with proper grammar,
+ * main - print the string in the put function
 
- * but the outcome is a piece of art,
+ *
 
- * Return: 0 if exited properly, non-zero otherwise
+ * Description: using the main function
+
+ * this program prints "Programming is like building a multilingual puzzle
+
+ * Return: 0
 
  */
 
