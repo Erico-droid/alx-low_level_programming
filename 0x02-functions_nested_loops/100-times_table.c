@@ -1,56 +1,73 @@
 #include "main.h"
+#include <string.h>
 
 /**
- * print - function to print recursively using _putchar
- * @var: variable to be printed
+ * panctuate - format the output
+ * @n: number of spaces
  */
-void print(int var)
+
+void panctuate(int n)
 {
-	if (var / 10)
-		print(var / 10);
-	_putchar('0' + (var % 10));
+	int panct;
+
+	_putchar(',');
+	for (panct = 0; panct < n; panct++)
+	{
+		_putchar(' ');
+	}
 }
+
 /**
- * print_times_table - prints the n times table, starting with 0
- * @n: time table to print
- *
- * Created by - Sanctus-Peter
- * cc; 5th july, 2022
+ * print_numbers - print values using _putchar
+ * @k: integer k
+ * @mod: check wether to append control x-ters
  */
 
+void print_numbers(int k, int mod)
+{
+	if (k < 10)
+	{
+		_putchar(k + '0');
+		if (mod > 0)
+			panctuate(mod);
+	}
+	else if (k < 100)
+	{
+		_putchar((k / 10) + '0');
+		_putchar((k % 10) + '0');
+		if (mod > 0)
+			panctuate(mod);
+	}
+	else
+	{
+		_putchar((k / 100) + '0');
+		_putchar(((k % 100) / 10) + '0');
+		_putchar((k % 10) + '0');
+		if (mod > 0)
+			panctuate(mod);
+	}
+}
+
+/**
+ * print_times_table - print the n x i table
+ * @n: integer n
+ */
 void print_times_table(int n)
 {
-	int ii, jj, mul;
+	int left, right, product, mod, postprod;
 
-	if (n < 0 || n > 15)
+	if (n > 15 || n < 0)
 		return;
-	for (ii = 0; ii <= n; ii++)
+
+	for (left = 0; left <= n; left++)
 	{
-		for (jj = 0; jj <= n; jj++)
+		for (right = 0; right <= n; right++)
 		{
-			mul = ii * jj;
-			if (jj == 0)
-				_putchar('0' + mul);
-			else if (mul < 10)
-			{
-				_putchar(' ');
-				_putchar(' ');
-				_putchar('0' + mul);
-			}
-			else if (mul < 100)
-			{
-				_putchar(' ');
-				print(mul);
-			}
-				else
-			{
-				print(mul);
-			}
-			if (jj < n)
-			{
-				_putchar(',');
-				_putchar(' ');
-			}
+			product = left * right;
+			postprod = (left * (right + 1));
+
+			mod = right == n ? -1 : postprod >= 100 ? 1 : postprod >= 10 ? 2 : 3;
+			print_numbers(product, mod);
 		}
 		_putchar('\n');
 	}

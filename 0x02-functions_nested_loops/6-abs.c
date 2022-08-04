@@ -1,29 +1,15 @@
-#include "main.h"
 #include <stdio.h>
 
 /**
- * _abs - value absolute
+ * _abs - Compute absolute value of a number
+ *@k: integer
  *
- *@n: The int to print
- * Return: Always 0.
+ * Return: Always 0 (Success)
  */
-
-int _abs(int n)
+int _abs(int k)
 {
-
-if (n < 0)
-{
-return (n * (-1));
-}
-
-else if (n == 0)
-{
-return (0);
-}
-
-else
-{
-return (n);
-}
-
+	if (k >= 0)
+		return (k);
+	k *= -1;
+	return (k);
 }

@@ -1,26 +1,27 @@
 #include <stdio.h>
 
 /**
- * main - sum of the even values of a Fibonacci
- * Created by : Sanctus-Peter
- * cc: 5th July, 2022
+ * main - Entry point
  *
- * Return: 0
+ * Return: Always 0 (Success)
  */
+
 int main(void)
 {
-	int i = 1, j = 2, total = 0;
-	int k;
+	int sum;
+	long int next;
+	long int prev = 1;
+	long int current = 1;
 
-	while (j < 4000000)
+	while (current < 4000000)
 	{
-		if (j % 2 == 0)
-			total += j;
-
-		k = j;
-		j += i;
-		i = k;
+		next = current + prev;
+		if (current % 2 == 0)
+			sum += current;
+		prev = current;
+		current = next;
 	}
-	printf("%d\n", total);
+
+	printf("%d\n", sum);
 	return (0);
 }

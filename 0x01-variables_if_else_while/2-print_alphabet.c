@@ -1,19 +1,17 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 /**
-*main-Prints letters to lowercase
-*
-*Return:Always 0 (Success)
-*/
+ * main - Program entry point
+ *
+ * Return: 0 indicates success
+ */
+
 int main(void)
 {
-    char c;
-    
-    for (c = 'a'; c <= 'z'; c++)
-        putchar(c);
-    
-    putchar('\n');
-    
-    return 0;
+	char alphabet;
+	/* Program */
+	for (alphabet = 'a'; alphabet <= 'z'; alphabet++)
+		putchar(alphabet);
+	putchar('\n');
+	return (0);
 }

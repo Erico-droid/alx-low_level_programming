@@ -1,28 +1,28 @@
 #include <stdio.h>
 
 /**
- * main - first 50 fibonacci number
+ * main - Entry point
  *
- * Created by: Sanctus-Peter
- * cc: 5th july, 2022
- *
- * Return: 0 if successful
+ * Return: Always 0 (Success)
  */
 int main(void)
 {
-	long int n1 = 1, result, n2 = 2, nLast = 50;
-	int ii;
+	int i;
+	long int next;
+	long int prev = 1;
+	long int current = 1;
 
-	printf("%lu, %lu, ", n1, n2);
-	for (ii = 2; ii < nLast; ii++)
+	for (i = 1; i <= 50; i++)
 	{
-		result = n1 + n2;
-		n1 = n2;
-		n2 = result;
-		printf("%lu", result);
-		if (ii != nLast - 1)
-			printf(", ");
+		next = current + prev;
+		if (i == 50)
+		{
+			printf("%ld\n", current);
+			continue;
+		}
+		printf("%ld, ", current);
+		prev = current;
+		current = next;
 	}
-	printf("\n");
 	return (0);
 }

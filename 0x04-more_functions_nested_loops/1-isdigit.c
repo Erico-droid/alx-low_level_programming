@@ -1,17 +1,20 @@
 #include "main.h"
 
 /**
- *_isdigit - function that prints the sign of a number.
- *@c: is a digit
- *Return: 1 if c is a digit, 0 otherwise.
+ * _isdigit - Check for uppercase characters
+ * @c: integer
+ * Return: 1 (Success) 0 (Otherwise)
  */
 
 int _isdigit(int c)
 {
-	if (c >= '0' && c <= '9')
+	int i;
+
+	for (i = '0'; i <= '9'; i++)
 	{
-		return (1);
+		if (c == i)
+			return (1);
 	}
-	else
-		return (0);
+
+	return (0);
 }

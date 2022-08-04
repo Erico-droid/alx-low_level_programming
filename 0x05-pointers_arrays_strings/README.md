@@ -1,1 +1,1 @@
-Basic exercises on Pointers, Arrays and Strings
+# pointers_arrays_strings

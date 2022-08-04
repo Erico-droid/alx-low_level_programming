@@ -1,24 +1,24 @@
 #include <stdio.h>
 
 /**
- * main - Entry point.
+ * main - Entry point
  *
- * Return: Always 0.
+ * Return: Always 0 (Success)
  */
-
 int main(void)
-
 {
-long n, i;
+	unsigned long num = 612852475143;
+	unsigned long div = 2;
 
-n = 612852475143;
-for (i = 2; i < n; i++)
-{
-while (n % i == 0)
-n = n / i;
-}
+	while (div < num)
+	{
+		if (num % div == 0)
+			num /= div++;
+		else
+			div++;
+	}
 
-printf("%lu\n", n);
+	printf("%lu\n", num);
 
-return (0);
+	return (0);
 }

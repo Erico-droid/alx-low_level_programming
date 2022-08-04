@@ -1,24 +1,18 @@
+#include <string.h>
 #include "main.h"
-
 
 /**
  * main - Entry point
  *
- * Return: nothing, return void
+ * Return: Always 0 (Success)
  */
-
 int main(void)
 {
-_putchar('_');
-_putchar('p');
-_putchar('u');
-_putchar('t');
-_putchar('c');
-_putchar('h');
-_putchar('a');
-_putchar('r');
-_putchar('\n');
+	const char str[] = "_putchar\n";
+	int len = strlen(str);
+	int i;
 
-return (0);
+	for (i = 0; i < len; i++)
+		_putchar(str[i]);
+	return (0);
 }
-
