@@ -37,4 +37,24 @@ void print_numbers(const char *separator, const unsigned int n, ...);
 
 void print_strings(const char *separator, const unsigned int n, ...);
 
+/**
+ * struct opt - struct
+ * @opt: selection
+ * @meth: function
+ */
+typedef struct opt
+{
+	char *opt;
+	void (*meth)(va_list);
+} opt_t;
+
+/**
+ * print_all - prints anything
+ * @format: list of types of args
+ *
+ * Return: void
+ */
+
+void print_all(const char * const format, ...);
+
 #endif
