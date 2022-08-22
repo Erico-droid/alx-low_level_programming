@@ -1,36 +1,39 @@
+#include <stdio.h>
 #include "main.h"
-
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
 /**
- * create_file - a function that creates a file
- *
- * @filename: name of file to create
- * @text_content: string to write to file
- *
- * Return: 1 on success OR -1 on faliure
-*/
+ * create_file - Creates a file.
+ * standard output.
+ * @filename: Name of the file to create.
+ * @text_content: NULL terminated string to write to the file.
+ * Return: 1 on success, -1 on failure.
+ */
 int create_file(const char *filename, char *text_content)
 {
-	int file, write_status, words = 0;
+	int fd, lenght;
+	ssize_t res_write;
 
-	if (filename == NULL) /*check if filename is present*/
+	if (filename == NULL)
 		return (-1);
-
-	/*open file by creating it and if it exists write but truncate to 0*/
-	file = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
-	if (file == -1) /*check if file creation was a success*/
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	if (fd == -1)
 		return (-1);
-
-	if (text_content) /*write content to file if its not NULL*/
+	if (text_content != NULL)
 	{
-		while (text_content[words] != '\0') /*find number of words*/
-			words++;
-
-		/*write to file*/
-		write_status = write(file, text_content, words);
-		if (write_status == -1) /*check if write was a success*/
+		lenght = 0;
+		while (*(text_content + lenght) != '\0')
+			lenght++;
+		res_write = write(fd, text_content, lenght);
+		if (res_write == -1)
+		{
+			write(1, "fails", 6);
 			return (-1);
+		}
 	}
-
-	close(file); /*close file*/
+	close(fd);
 	return (1);
 }

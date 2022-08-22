@@ -1,86 +1,85 @@
-#include "holberton.h"
-
-#define MAXSIZE 1024
-
-
+#include <stdio.h>
+#include "main.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
 /**
- * __exit - prints error messages and exits with exit number
- *
- * @error: either the exit number or file descriptor
- * @str: name of either file_in or file_out
- * @fd: file descriptor
- *
- * Return: 0 on success
-*/
-int __exit(int error, char *str, int fd)
+ * _error - Read file.
+ * @e: Error number
+ * @filename: File name
+ */
+void _error(int e, char *filename)
 {
-	switch (error)
+	if (e == 98)
 	{
-		case 97:
-			dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-			exit(error);
-		case 98:
-			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", s);
-			exit(error);
-		case 99:
-			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", s);
-			exit(error);
-		case 100:
-			dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
-			exit(error);
-		default:
-			return (0);
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", filename);
+		exit(98);
+	}
+	if (e == 99)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", filename);
+		exit(99);
 	}
 }
-
 /**
- * main - create a copy of file
- *
- * @argc: argument counter
- * @argv: argument vector
- *
- * Return: 0 for success.
-*/
-int main(int argc, char *argv[])
+ * cp - Copies the content of a file to another file.
+ * @file_from: Name of the source file.
+ * @file_to: Name of the destination file.
+ * Return: 1 on success, -1 on failure.
+ */
+void cp(char *file_from, char *file_to)
 {
-	int file_in, file_out;
-	int read_stat, write_stat;
-	int close_in, close_out;
-	char buffer[MAXSIZE];
+	int fd_read, res_read, fd_write, res_write;
+	char *buf[1024];
 
-	/*if arguments are not 3*/
-	if (argc != 3)
-		__exit(97, NULL, 0);
-
-	/*sets file descriptor for copy from file*/
-	file_in = open(argv[1], O_RDONLY);
-	if (file_in == -1)
-		__exit(98, argv[1], 0);
-
-	/*sets file descriptor for copy to file*/
-	file_out = open(argv[2], O_CREAT | O_TRUNC | O_WRONLY, 0664);
-	if (file_out == -1)
-		__exit(99, argv[2], 0);
-
-	/*reads file_in as long as its not NULL*/
-	while ((read_stat = read(file_in, buffer, MAXSIZE)) != 0)
+	/* READ */
+	fd_read = open(file_from, O_RDONLY);
+	if (fd_read < 0)
+		_error(98, file_from);
+	/* WRITE */
+	fd_write = open(file_to, O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (fd_write < 0)
 	{
-		if (read_stat == -1)
-			__exit(98, argv[1], 0);
-
-		/*copy and write contents to file_out*/
-		write_stat = write(file_out, buffer, read_stat);
-		if (write_stat == -1)
-			__exit(99, argv[2], 0);
+		close(fd_read);
+		_error(99, file_to);
 	}
-
-	close_in = close(file_in); /*close file_in*/
-	if (close_in == -1)
-		__exit(100, NULL, file_in);
-
-	close_out = close(file_out); /*close file_out*/
-	if (close_out == -1)
-		__exit(100, NULL, file_out);
-
+	do {
+		/* READ */
+		res_read = read(fd_read, buf, 1024);
+		if (res_read < 0)
+			_error(98, file_from);
+		/* WRITE */
+		res_write = write(fd_write, buf, res_read);
+		if (res_write < res_read)
+			_error(99, file_to);
+	}	while (res_write == 1024);
+	if (close(fd_read) < 0)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_read);
+		close(fd_write);
+		exit(100);
+	}
+	if (close(fd_write) < 0)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_write);
+		exit(100);
+	}
+}
+/**
+ * main - Copies the content of a file to another file.
+ * @ac: Argument count
+ * @av: argument values
+ * Return: 0 on succes, -1 on error.
+ */
+int main(int ac, char *av[])
+{
+	if (ac != 3)
+	{
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
+		exit(97);
+	}
+	cp(av[1], av[2]);
 	return (0);
 }
